@@ -1,33 +1,103 @@
+html {
+    background-color: #F1F1F1;
+}
+
 .App {
-  text-align: center;
+
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.ContentWrapper {
+  width: 912px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.AddPerson {
+  background-color: white;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+
+.AddPerson input {
+  margin-right: 16px;
+  height: 40px;
+  padding-left: 16px;
+  border: 1px solid #F1F1F1;
+}
+
+.AddPerson button {
+  height: 40px;
+  float: right;
+  background-color: #EDEDED;
+  border: none;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.CancelBtn {
+  height: 40px;
+  background-color: #EDEDED;
+  font-size: 16px;
+  font-weight: 500;
+  color: #07f;
+  border: none;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.SaveBtn {
+  height: 40px;
+  background-color: #07f;
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+  border: none;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+header {
+  padding: 32px;
+  background-color: #ADB5BD;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+h2 {
+  color: #757575;
+  margin-top: 64px;
+  margin-bottom: 32px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+table {
+  border-collapse: collapse;
+  border: none;
+  width: 912px;
+  margin: auto, 32px, auto, 32px;
+}
+
+table tr {
+  margin: 0 0 1px 0;
+  background-color: white;
+  border-bottom: 2px solid #F1F1F1;
+}
+
+table th {
+  text-align: left;
+  height: 48px;
+  margin: 0 0 1px 0;
+  padding-left: 16px;
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 500;
+  color: #757575;
+}
+
+table td {
+  height: 72px;
+  padding-left: 16px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: #505050;
 }
