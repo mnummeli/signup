@@ -2,40 +2,27 @@ html {
     background-color: #F1F1F1;
 }
 
-.App {
-
-}
-
-.ContentWrapper {
+body {
   width: 912px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.AddPerson {
+form {
   background-color: white;
   padding: 16px;
   margin-bottom: 16px;
 }
 
 
-.AddPerson input {
+form input {
   margin-right: 16px;
   height: 40px;
   padding-left: 16px;
   border: 1px solid #F1F1F1;
 }
 
-.AddPerson button {
-  height: 40px;
-  float: right;
-  background-color: #EDEDED;
-  border: none;
-  padding-left: 16px;
-  padding-right: 16px;
-}
-
-.CancelBtn {
+form .cancelBtn {
   height: 40px;
   background-color: #EDEDED;
   font-size: 16px;
@@ -46,7 +33,7 @@ html {
   padding-right: 16px;
 }
 
-.SaveBtn {
+form .submitBtn {
   height: 40px;
   background-color: #07f;
   font-size: 16px;
