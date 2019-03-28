@@ -6,12 +6,18 @@ const $ = require('jquery');
 
 function Rows(props) {
     return props.users.map((row, rowIndex) => {
-	return <tr key={row.id}>
+	const editingStyle = {
+	    backgroundColor: 'red'
+	}
+	return <tr key={row.id} style={props.editing === rowIndex ? editingStyle : {}}>
 	    <td>{row.id}</td>
 	    <td>{row.name}</td>
 	    <td>{row.email}</td>
 	    <td>{row.phone}</td>
-	    <td><i id={'r_' + rowIndex} class='fas fa-trash' onClick={event => {
+	    <td><i id={'e_' + rowIndex} className='fas fa-edit' onClick={event => {
+		props.setEditing(parseInt(/^e_(\d+)/.exec(event.target.id)[1], 10));
+	    }}></i></td>
+	    <td><i id={'r_' + rowIndex} className='fas fa-trash' onClick={event => {
 		const toBeRemoved = parseInt(/^r_(\d+)/.exec(event.target.id)[1], 10);
 		props.removeUser(toBeRemoved);
 	    }}></i></td>
@@ -28,18 +34,23 @@ function Users(props) {
 	<th>Email</th>
 	<th>Phone</th>
 	<th/>
+	<th/>
 	</tr>
 	</thead>
 	<tbody>
-	<Rows users = {props.users} removeUser = {props.removeUser}/>
+	<Rows users = {props.users} removeUser = {props.removeUser}
+    editing={props.editing} setEditing={props.setEditing}/>
 	</tbody>
 	</table>;
 }
 
 function NewUserForm(props) {
-    const [name, setName] = React.useState('');
-    const [email, setEmail] = React.useState('');
-    const [phone, setPhone] = React.useState('+358');
+    const [name, setName] =
+	  React.useState(props.editing < 0 ? '' : props.users[props.editing].name);
+    const [email, setEmail] =
+	  React.useState(props.editing < 0 ? '' : props.users[props.editing].email);
+    const [phone, setPhone] =
+	  React.useState(props.editing < 0 ? '+358' : props.users[props.editing].phone);
 
     function valid(name, email, phone) {
 	return (name.length > 0 && /@/.test(email) && /^\+\d{4}/.test(phone));
@@ -47,7 +58,12 @@ function NewUserForm(props) {
     
     return <form id='newUser' onSubmit={event => {
 	event.preventDefault();
-	props.addUser(name, email, phone);
+	if(props.editing >= 0) {
+	    props.replaceUser(props.editing, name, email, phone);
+	    props.setEditing(-1);
+	} else {
+	    props.addUser(name, email, phone);
+	}
 	setName('');
 	setEmail('');
 	setPhone('+358');
@@ -72,12 +88,18 @@ function NewUserForm(props) {
 	<br/>
 	<button className='submitBtn' type='submit'
     disabled={!valid(name, email, phone)}>Submit</button>
-	<button className='cancelBtn' type='button'>Cancel</button>
+	<button className='cancelBtn' type='button' onClick={event => {
+	    props.setEditing(-1);
+	    setName('');
+	    setEmail('');
+	    setPhone('+358');
+	}}>Cancel</button>
 	</form>
 }
 
 function App(props) {
     const [users, setUsers] = React.useState([]);
+    const [editing, setEditing] = React.useState(-1);
 
     React.useEffect(() => {
 	$.getJSON('/random-users', function(data) {
@@ -101,7 +123,18 @@ function App(props) {
 	});
 	setUsers(tmpUsers);
     }
-
+    
+    function replaceUser(index, name, email, phone) {
+	let tmpUsers = [...users];
+	tmpUsers[index] = {
+	    id: tmpUsers[index].id,
+	    name,
+	    email,
+	    phone
+	};
+	setUsers(tmpUsers);
+    }
+    
     function removeUser(index) {
 	let tmpUsers = [...users];
 	tmpUsers.splice(index, 1);
@@ -109,8 +142,10 @@ function App(props) {
     }
     
     return <>
-	<Users users={users} removeUser={removeUser}/>
-	<NewUserForm addUser={addUser}/>
+	<Users users={users} removeUser={removeUser} editing={editing}
+    setEditing={setEditing}/>
+	<NewUserForm users={users} addUser={addUser} replaceUser={replaceUser} editing={editing}
+    setEditing={setEditing}/>
 	</>;
 }
 
