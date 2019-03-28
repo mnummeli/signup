@@ -45,12 +45,17 @@ function Users(props) {
 }
 
 function NewUserForm(props) {
-    const [name, setName] =
-	  React.useState(props.editing < 0 ? '' : props.users[props.editing].name);
-    const [email, setEmail] =
-	  React.useState(props.editing < 0 ? '' : props.users[props.editing].email);
-    const [phone, setPhone] =
-	  React.useState(props.editing < 0 ? '+358' : props.users[props.editing].phone);
+    const [name, setName] = React.useState('');
+    const [email, setEmail] = React.useState('');
+    const [phone, setPhone] = React.useState('+358');
+
+    React.useEffect(() => {
+	if(props.editing >= 0) {
+	    setName(props.users[props.editing].name);
+	    setEmail(props.users[props.editing].email);
+	    setPhone(props.users[props.editing].phone);
+	}
+    }, [props.editing]);
 
     function valid(name, email, phone) {
 	return (name.length > 0 && /@/.test(email) && /^\+\d{4}/.test(phone));

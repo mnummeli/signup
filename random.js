@@ -41,7 +41,6 @@ const random = {
 	for(let i=0;i<3;i++) {
 	    phone += randomNumber();
 	}
-	phone += '-';
 	for(let i=0;i<8;i++) {
 	    phone += randomNumber();
 	}
