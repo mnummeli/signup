@@ -26,13 +26,31 @@ function Rows(props) {
 }
 
 function Users(props) {
-    return <table>
+    const [sortedBy, setSortedBy] = React.useState(['id', true]);
+
+    function sortedByArrow(str) {
+	if(str === sortedBy[0]) {
+	    return sortedBy[1] ?
+		<i className='fas fa-angle-down'></i> :
+		<i className='fas fa-angle-up'></i>;
+	} else {
+	    return null;
+	}
+    }
+    
+    return <table className='w3-table-all'>
 	<thead>
 	<tr>
-	<th>ID</th>
-	<th>Name</th>
-	<th>Email</th>
-	<th>Phone</th>
+	<th onClick={event => {
+	    if(sortedBy[0] === 'id') {
+		setSortedBy([sortedBy[0], !sortedBy[1]]);
+	    } else {
+		setSortedBy(['id', true]);
+	    }
+	}}>ID {sortedByArrow('id')}</th>
+	<th>Name {sortedByArrow('name')}</th>
+	<th>Email {sortedByArrow('email')}</th>
+	<th>Phone {sortedByArrow('phone')}</th>
 	<th/>
 	<th/>
 	</tr>
@@ -61,7 +79,7 @@ function NewUserForm(props) {
 	return (name.length > 0 && /@/.test(email) && /^\+\d{4}/.test(phone));
     }
     
-    return <form id='newUser' onSubmit={event => {
+    return <form className='w3-container' id='newUser' onSubmit={event => {
 	event.preventDefault();
 	if(props.editing >= 0) {
 	    props.replaceUser(props.editing, name, email, phone);
@@ -74,26 +92,26 @@ function NewUserForm(props) {
 	setPhone('+358');
     }}>
 	<label htmlFor='name'>Name:</label>
-	<input type='text' id='name' name='name' placeholder='Name' value={name}
+	<input className='w3-input' type='text' id='name' name='name'
+    placeholder='Name' value={name}
     onChange={event => {
 	setName(event.target.value);
     }}/>
-	<br/>
 	<label htmlFor='email'>Email:</label>
-	<input type='email' id='email' name='email' placeholder='Email' value={email}
+	<input className='w3-input' type='email' id='email' name='email'
+    placeholder='Email' value={email}
     onChange={event => {
 	setEmail(event.target.value);
     }}/>
-	<br/>
 	<label htmlFor='phone'>Phone:</label>
-	<input type='text' id='phone' name='phone' placeholder='Phone' value={phone}
+	<input className='w3-input' type='text' id='phone' name='phone'
+    placeholder='Phone' value={phone}
     onChange={event => {
 	setPhone(event.target.value);
     }}/>
-	<br/>
-	<button className='submitBtn' type='submit'
+	<button className='w3-btn w3-blue w3-margin submitBtn' type='submit'
     disabled={!valid(name, email, phone)}>Submit</button>
-	<button className='cancelBtn' type='button' onClick={event => {
+	<button className='w3-btn w3-pale-yellow w3-margin cancelBtn' type='button' onClick={event => {
 	    props.setEditing(-1);
 	    setName('');
 	    setEmail('');
@@ -147,10 +165,10 @@ function App(props) {
     }
     
     return <>
-	<Users users={users} removeUser={removeUser} editing={editing}
-    setEditing={setEditing}/>
-	<NewUserForm users={users} addUser={addUser} replaceUser={replaceUser} editing={editing}
-    setEditing={setEditing}/>
+	<Users users={users} setUsers={setUsers} removeUser={removeUser}
+    editing={editing} setEditing={setEditing}/>
+	<NewUserForm users={users} addUser={addUser} replaceUser={replaceUser}
+    editing={editing} setEditing={setEditing}/>
 	</>;
 }
 
