@@ -37,20 +37,24 @@ function Users(props) {
 	    return null;
 	}
     }
-    
+
+    function changeSortedBy(str) {
+	return event => {
+	    if(str === sortedBy[0]) {
+		setSortedBy([sortedBy[0], !sortedBy[1]]);
+	    } else {
+		setSortedBy([str, true]);
+	    }
+	};
+    }
+
     return <table className='w3-table-all'>
 	<thead>
 	<tr>
-	<th onClick={event => {
-	    if(sortedBy[0] === 'id') {
-		setSortedBy([sortedBy[0], !sortedBy[1]]);
-	    } else {
-		setSortedBy(['id', true]);
-	    }
-	}}>ID {sortedByArrow('id')}</th>
-	<th>Name {sortedByArrow('name')}</th>
-	<th>Email {sortedByArrow('email')}</th>
-	<th>Phone {sortedByArrow('phone')}</th>
+	<th onClick={changeSortedBy('id')}> ID {sortedByArrow('id')}</th>
+	<th onClick={changeSortedBy('name')}> Name {sortedByArrow('name')}</th>
+	<th onClick={changeSortedBy('email')}> Email {sortedByArrow('email')}</th>
+	<th onClick={changeSortedBy('phone')}> Phone {sortedByArrow('phone')}</th>
 	<th/>
 	<th/>
 	</tr>
