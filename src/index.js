@@ -174,15 +174,15 @@ function App(props) {
 
     function sortUsers(sortedBy) {
 	let tmpUsers = [...users];
-	if(sortedBy[0] === 'id') {
-	    tmpUsers.sort((x, y) => {
-		if(sortedBy[1]) {
-		    return x.id-y.id;
-		} else {
-		    return y.id-x.id;
-		}
-	    });
-	}
+	tmpUsers.sort((x, y) => {
+	    if(x[sortedBy[0]] > y[sortedBy[0]]) {
+		return sortedBy[1] ? 1 : -1;
+	    } else if (x[sortedBy[0]] < y[sortedBy[0]]) {
+		return sortedBy[1] ? -1 : 1;
+	    } else {
+		return 0;
+	    }
+	});
 	setUsers(tmpUsers);
     }
     
