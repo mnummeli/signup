@@ -48,6 +48,10 @@ function Users(props) {
 	};
     }
 
+    React.useEffect(() => {
+	props.sortUsers(sortedBy);
+    }, [sortedBy]);
+
     return <table className='w3-table-all'>
 	<thead>
 	<tr>
@@ -167,9 +171,25 @@ function App(props) {
 	tmpUsers.splice(index, 1);
 	setUsers(tmpUsers);
     }
+
+    function sortUsers(sortedBy) {
+	let tmpUsers = [...users];
+	if(sortedBy[0] === 'id') {
+	    tmpUsers.sort((x, y) => {
+		if(sortedBy[1]) {
+		    return x.id-y.id;
+		} else {
+		    return y.id-x.id;
+		}
+	    });
+	}
+	setUsers(tmpUsers);
+    }
     
     return <>
-	<Users users={users} setUsers={setUsers} removeUser={removeUser}
+	<h1>Signup with Browserify</h1>
+	<hr/>
+	<Users users={users} removeUser={removeUser} sortUsers={sortUsers}
     editing={editing} setEditing={setEditing}/>
 	<NewUserForm users={users} addUser={addUser} replaceUser={replaceUser}
     editing={editing} setEditing={setEditing}/>
